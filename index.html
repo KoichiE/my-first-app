@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contador de Eventos | Colegio Bolívar</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #0b1f3a, #174a7e);
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .contenedor {
+            background: white;
+            color: #17365d;
+            width: 100%;
+            max-width: 450px;
+            padding: 40px 25px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+        }
+
+        h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .subtitulo {
+            color: #555;
+            font-size: 16px;
+            margin-bottom: 30px;
+        }
+
+        .contador {
+            font-size: 80px;
+            font-weight: bold;
+            color: #174a7e;
+            margin: 20px 0;
+            transition: transform 0.15s ease;
+        }
+
+        .contador.animar {
+            transform: scale(1.12);
+        }
+
+        button {
+            width: 100%;
+            padding: 16px;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.2s;
+            margin-top: 10px;
+        }
+
+        .btn-sumar {
+            background: #174a7e;
+            color: white;
+        }
+
+        .btn-sumar:hover {
+            background: #0b1f3a;
+            transform: translateY(-2px);
+        }
+
+        .btn-restar {
+            background: #e8edf3;
+            color: #17365d;
+        }
+
+        .btn-restar:hover {
+            background: #d5dce5;
+        }
+
+        .btn-reiniciar {
+            background: #f4e5e5;
+            color: #a32626;
+        }
+
+        .btn-reiniciar:hover {
+            background: #edcccc;
+        }
+
+        .mensaje {
+            margin-top: 25px;
+            color: #555;
+            font-size: 14px;
+        }
+
+        footer {
+            margin-top: 30px;
+            font-size: 12px;
+            color: #777;
+        }
+    </style>
+</head>
+
+<body>
+    <main class="contenedor">
+        <h1>Colegio Bolívar</h1>
+
+        <p class="subtitulo">
+            Contador interactivo de eventos
+        </p>
+
+        <p>Participaciones registradas</p>
+
+        <div class="contador" id="contador" aria-live="polite">
+            0
+        </div>
+
+        <button class="btn-sumar" id="sumar">
+            + Registrar participación
+        </button>
+
+        <button class="btn-restar" id="restar">
+            − Restar participación
+        </button>
+
+        <button class="btn-reiniciar" id="reiniciar">
+            Reiniciar contador
+        </button>
+
+        <p class="mensaje" id="mensaje" role="status">
+            ¡Listos para comenzar el evento!
+        </p>
+
+        <footer>
+            Colegio Bolívar · Contador de eventos escolares
+        </footer>
+    </main>
+
+    <script>
+        let totalClicks = 0;
+
+        const contador = document.getElementById("contador");
+        const mensaje = document.getElementById("mensaje");
+        const botonSumar = document.getElementById("sumar");
+        const botonRestar = document.getElementById("restar");
+        const botonReiniciar = document.getElementById("reiniciar");
+
+        function actualizarContador() {
+            contador.textContent = totalClicks;
+
+            contador.classList.remove("animar");
+            void contador.offsetWidth;
+            contador.classList.add("animar");
+
+            if (totalClicks === 0) {
+                mensaje.textContent = "¡Listos para comenzar el evento!";
+            } else if (totalClicks === 1) {
+                mensaje.textContent = "¡Primera participación registrada!";
+            } else {
+                mensaje.textContent =
+                    "¡Excelente! Llevamos " + totalClicks +
+                    " participaciones registradas.";
+            }
+        }
+
+        botonSumar.addEventListener("click", function () {
+            totalClicks++;
+            actualizarContador();
+        });
+
+        botonRestar.addEventListener("click", function () {
+            if (totalClicks > 0) {
+                totalClicks--;
+                actualizarContador();
+            } else {
+                mensaje.textContent =
+                    "El contador ya está en cero.";
+            }
+        });
+
+        botonReiniciar.addEventListener("click", function () {
+            const confirmar = window.confirm(
+                "¿Estás seguro de que deseas reiniciar el contador?"
+            );
+
+            if (confirmar) {
+                totalClicks = 0;
+                actualizarContador();
+            }
+        });
+    </script>
+</body>
+</html>
