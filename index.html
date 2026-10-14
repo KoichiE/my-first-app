@@ -3,9 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Contador de Eventos | Colegio Bolívar</title>
 
     <style>
+        /* Configuración general */
         * {
             box-sizing: border-box;
             margin: 0;
@@ -13,9 +15,9 @@
         }
 
         body {
-            font-family: Arial, sans-serif;
-            background: linear-gradient(135deg, #0b1f3a, #174a7e);
-            color: white;
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: linear-gradient(135deg, #050816, #0a1938, #101d42);
+            color: #f1f5f9;
             min-height: 100vh;
             display: flex;
             justify-content: center;
@@ -23,90 +25,160 @@
             padding: 20px;
         }
 
+        /* Panel principal */
         .contenedor {
-            background: white;
-            color: #17365d;
+            background: rgba(13, 25, 52, 0.94);
             width: 100%;
-            max-width: 450px;
-            padding: 40px 25px;
-            border-radius: 20px;
+            max-width: 460px;
+            padding: 40px 28px;
+            border: 1px solid rgba(0, 229, 255, 0.25);
+            border-radius: 24px;
             text-align: center;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+            box-shadow:
+                0 0 30px rgba(0, 229, 255, 0.08),
+                0 20px 60px rgba(0, 0, 0, 0.4);
         }
 
+        /* Encabezado */
         h1 {
-            font-size: 28px;
+            color: #ffffff;
+            font-size: 30px;
+            font-weight: 700;
+            letter-spacing: 1px;
             margin-bottom: 10px;
         }
 
         .subtitulo {
-            color: #555;
-            font-size: 16px;
-            margin-bottom: 30px;
+            color: #94a3b8;
+            font-size: 15px;
+            margin-bottom: 35px;
         }
 
+        .etiqueta {
+            color: #cbd5e1;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        /* Número del contador */
         .contador {
-            font-size: 80px;
-            font-weight: bold;
-            color: #174a7e;
-            margin: 20px 0;
-            transition: transform 0.15s ease;
+            font-size: 90px;
+            font-weight: 800;
+            line-height: 1.3;
+            color: #00e5ff;
+            text-shadow: 0 0 12px rgba(0, 229, 255, 0.5);
+            margin: 15px 0 25px;
+            transition: transform 0.2s ease;
         }
 
         .contador.animar {
             transform: scale(1.12);
         }
 
+        /* Botones */
         button {
             width: 100%;
             padding: 16px;
-            border: none;
-            border-radius: 10px;
-            font-size: 18px;
-            font-weight: bold;
+            margin-top: 12px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 700;
+            font-family: inherit;
             cursor: pointer;
-            transition: background 0.2s, transform 0.2s;
-            margin-top: 10px;
+            transition: all 0.25s ease;
         }
 
         .btn-sumar {
-            background: #174a7e;
-            color: white;
+            background: #00e5ff;
+            color: #061225;
+            border: 1px solid #00e5ff;
+            box-shadow: 0 0 18px rgba(0, 229, 255, 0.2);
         }
 
         .btn-sumar:hover {
-            background: #0b1f3a;
+            background: #72f3ff;
+            box-shadow: 0 0 25px rgba(0, 229, 255, 0.5);
             transform: translateY(-2px);
         }
 
         .btn-restar {
-            background: #e8edf3;
-            color: #17365d;
+            background: transparent;
+            color: #b8a5ff;
+            border: 1px solid #8b5cf6;
         }
 
         .btn-restar:hover {
-            background: #d5dce5;
+            background: rgba(139, 92, 246, 0.15);
+            box-shadow: 0 0 18px rgba(139, 92, 246, 0.25);
+            transform: translateY(-2px);
         }
 
         .btn-reiniciar {
-            background: #f4e5e5;
-            color: #a32626;
+            background: transparent;
+            color: #ff7b8a;
+            border: 1px solid #fb5268;
         }
 
         .btn-reiniciar:hover {
-            background: #edcccc;
+            background: rgba(251, 82, 104, 0.12);
+            box-shadow: 0 0 18px rgba(251, 82, 104, 0.2);
+            transform: translateY(-2px);
         }
 
+        button:focus-visible {
+            outline: 3px solid #ffffff;
+            outline-offset: 4px;
+        }
+
+        button:active {
+            transform: scale(0.98);
+        }
+
+        /* Mensaje de estado */
         .mensaje {
-            margin-top: 25px;
-            color: #555;
+            color: #94a3b8;
             font-size: 14px;
+            line-height: 1.5;
+            margin-top: 25px;
+            min-height: 22px;
         }
 
+        /* Pie de página */
         footer {
             margin-top: 30px;
+            padding-top: 18px;
+            border-top: 1px solid rgba(148, 163, 184, 0.15);
+            color: #64748b;
             font-size: 12px;
-            color: #777;
+        }
+
+        /* Adaptación a pantallas pequeñas */
+        @media (max-width: 480px) {
+            .contenedor {
+                padding: 30px 20px;
+            }
+
+            h1 {
+                font-size: 25px;
+            }
+
+            .contador {
+                font-size: 75px;
+            }
+
+            button {
+                padding: 15px;
+            }
+        }
+
+        /* Respeta la preferencia de movimiento reducido */
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                transition: none !important;
+            }
         }
     </style>
 </head>
@@ -119,11 +191,14 @@
             Contador interactivo de eventos
         </p>
 
-        <p>Participaciones registradas</p>
+        <p class="etiqueta">Participaciones registradas</p>
 
-        <div class="contador" id="contador" aria-live="polite">
-            0
-        </div>
+        <div
+            class="contador"
+            id="contador"
+            aria-live="polite"
+            aria-atomic="true"
+        >0</div>
 
         <button class="btn-sumar" id="sumar">
             + Registrar participación
@@ -163,9 +238,11 @@
             contador.classList.add("animar");
 
             if (totalClicks === 0) {
-                mensaje.textContent = "¡Listos para comenzar el evento!";
+                mensaje.textContent =
+                    "¡Listos para comenzar el evento!";
             } else if (totalClicks === 1) {
-                mensaje.textContent = "¡Primera participación registrada!";
+                mensaje.textContent =
+                    "¡Primera participación registrada!";
             } else {
                 mensaje.textContent =
                     "¡Excelente! Llevamos " + totalClicks +
@@ -173,11 +250,13 @@
             }
         }
 
+        // Registrar una participación
         botonSumar.addEventListener("click", function () {
             totalClicks++;
             actualizarContador();
         });
 
+        // Restar una participación sin bajar de cero
         botonRestar.addEventListener("click", function () {
             if (totalClicks > 0) {
                 totalClicks--;
@@ -188,6 +267,7 @@
             }
         });
 
+        // Reiniciar el contador con confirmación
         botonReiniciar.addEventListener("click", function () {
             const confirmar = window.confirm(
                 "¿Estás seguro de que deseas reiniciar el contador?"
