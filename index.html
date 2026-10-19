@@ -3,11 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Contador de Eventos | Colegio Bolívar</title>
 
     <style>
-        /* Configuración general */
         * {
             box-sizing: border-box;
             margin: 0;
@@ -25,80 +23,101 @@
             padding: 20px;
         }
 
-        /* Panel principal */
         .contenedor {
-            background: rgba(13, 25, 52, 0.94);
+            background: rgba(13, 25, 52, 0.96);
             width: 100%;
             max-width: 460px;
-            padding: 40px 28px;
+            padding: 35px 28px;
             border: 1px solid rgba(0, 229, 255, 0.25);
             border-radius: 24px;
             text-align: center;
-            box-shadow:
-                0 0 30px rgba(0, 229, 255, 0.08),
-                0 20px 60px rgba(0, 0, 0, 0.4);
+            box-shadow: 0 0 30px rgba(0, 229, 255, 0.08),
+                        0 20px 60px rgba(0, 0, 0, 0.4);
         }
 
-        /* Encabezado */
         h1 {
-            color: #ffffff;
-            font-size: 30px;
-            font-weight: 700;
-            letter-spacing: 1px;
+            color: #00e5ff;
+            font-size: 28px;
             margin-bottom: 10px;
+            text-shadow: 0 0 12px rgba(0, 229, 255, 0.25);
         }
 
         .subtitulo {
             color: #94a3b8;
-            font-size: 15px;
-            margin-bottom: 35px;
+            font-size: 14px;
+            margin-bottom: 28px;
         }
 
         .etiqueta {
+            display: block;
             color: #cbd5e1;
-            font-size: 14px;
+            font-size: 13px;
+            text-align: left;
+            margin-bottom: 8px;
+        }
+
+        .campo-titulo {
+            width: 100%;
+            padding: 13px;
+            margin-bottom: 28px;
+            background: #081329;
+            color: #ffffff;
+            border: 1px solid #334766;
+            border-radius: 10px;
+            font-size: 15px;
+            font-family: inherit;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .campo-titulo:focus {
+            border-color: #00e5ff;
+            box-shadow: 0 0 12px rgba(0, 229, 255, 0.15);
+        }
+
+        .etiqueta-contador {
+            color: #cbd5e1;
+            font-size: 13px;
             text-transform: uppercase;
             letter-spacing: 2px;
         }
 
-        /* Número del contador */
         .contador {
-            font-size: 90px;
-            font-weight: 800;
+            font-size: 85px;
             line-height: 1.3;
+            font-weight: 800;
             color: #00e5ff;
-            text-shadow: 0 0 12px rgba(0, 229, 255, 0.5);
-            margin: 15px 0 25px;
+            text-shadow: 0 0 15px rgba(0, 229, 255, 0.4);
+            margin: 12px 0 24px;
             transition: transform 0.2s ease;
         }
 
         .contador.animar {
-            transform: scale(1.12);
+            transform: scale(1.1);
         }
 
-        /* Botones */
         button {
             width: 100%;
-            padding: 16px;
+            padding: 15px;
             margin-top: 12px;
-            border-radius: 12px;
-            font-size: 16px;
-            font-weight: 700;
+            border-radius: 10px;
             font-family: inherit;
+            font-size: 15px;
+            font-weight: 700;
             cursor: pointer;
-            transition: all 0.25s ease;
+            transition: all 0.2s ease;
         }
 
         .btn-sumar {
             background: #00e5ff;
             color: #061225;
             border: 1px solid #00e5ff;
-            box-shadow: 0 0 18px rgba(0, 229, 255, 0.2);
+            box-shadow: 0 0 15px rgba(0, 229, 255, 0.15);
         }
 
         .btn-sumar:hover {
             background: #72f3ff;
-            box-shadow: 0 0 25px rgba(0, 229, 255, 0.5);
+            box-shadow: 0 0 22px rgba(0, 229, 255, 0.4);
             transform: translateY(-2px);
         }
 
@@ -110,8 +129,7 @@
 
         .btn-restar:hover {
             background: rgba(139, 92, 246, 0.15);
-            box-shadow: 0 0 18px rgba(139, 92, 246, 0.25);
-            transform: translateY(-2px);
+            box-shadow: 0 0 15px rgba(139, 92, 246, 0.2);
         }
 
         .btn-reiniciar {
@@ -122,57 +140,48 @@
 
         .btn-reiniciar:hover {
             background: rgba(251, 82, 104, 0.12);
-            box-shadow: 0 0 18px rgba(251, 82, 104, 0.2);
-            transform: translateY(-2px);
+            box-shadow: 0 0 15px rgba(251, 82, 104, 0.2);
         }
 
         button:focus-visible {
-            outline: 3px solid #ffffff;
-            outline-offset: 4px;
+            outline: 2px solid white;
+            outline-offset: 3px;
         }
 
         button:active {
             transform: scale(0.98);
         }
 
-        /* Mensaje de estado */
         .mensaje {
             color: #94a3b8;
-            font-size: 14px;
+            font-size: 13px;
             line-height: 1.5;
-            margin-top: 25px;
-            min-height: 22px;
+            margin-top: 22px;
+            min-height: 20px;
         }
 
-        /* Pie de página */
         footer {
-            margin-top: 30px;
+            margin-top: 26px;
             padding-top: 18px;
             border-top: 1px solid rgba(148, 163, 184, 0.15);
             color: #64748b;
             font-size: 12px;
         }
 
-        /* Adaptación a pantallas pequeñas */
         @media (max-width: 480px) {
             .contenedor {
-                padding: 30px 20px;
+                padding: 28px 20px;
             }
 
             h1 {
-                font-size: 25px;
+                font-size: 24px;
             }
 
             .contador {
-                font-size: 75px;
-            }
-
-            button {
-                padding: 15px;
+                font-size: 72px;
             }
         }
 
-        /* Respeta la preferencia de movimiento reducido */
         @media (prefers-reduced-motion: reduce) {
             *,
             *::before,
@@ -187,11 +196,26 @@
     <main class="contenedor">
         <h1>Colegio Bolívar</h1>
 
-        <p class="subtitulo">
-            Contador interactivo de eventos
-        </p>
+        <p class="subtitulo">Contador interactivo de eventos</p>
 
-        <p class="etiqueta">Participaciones registradas</p>
+        <!-- Campo para cambiar el título del evento -->
+        <label class="etiqueta" for="tituloEvento">
+            Nombre del evento
+        </label>
+
+        <input
+            type="text"
+            id="tituloEvento"
+            class="campo-titulo"
+            placeholder="Escribe el nombre del evento..."
+            value="Evento escolar"
+            maxlength="80"
+        >
+
+        <!-- El título cambia mientras el usuario escribe -->
+        <p class="etiqueta-contador" id="tituloActual">
+            Evento escolar
+        </p>
 
         <div
             class="contador"
@@ -209,10 +233,10 @@
         </button>
 
         <button class="btn-reiniciar" id="reiniciar">
-            Reiniciar contador
+            Reiniciar contador a cero
         </button>
 
-        <p class="mensaje" id="mensaje" role="status">
+        <p class="mensaje" id="mensaje" role="status" aria-live="polite">
             ¡Listos para comenzar el evento!
         </p>
 
@@ -230,6 +254,20 @@
         const botonRestar = document.getElementById("restar");
         const botonReiniciar = document.getElementById("reiniciar");
 
+        const campoTitulo = document.getElementById("tituloEvento");
+        const tituloActual = document.getElementById("tituloActual");
+
+        // Actualizar el título del evento en tiempo real
+        campoTitulo.addEventListener("input", function () {
+            const titulo = campoTitulo.value.trim();
+
+            tituloActual.textContent = titulo || "Evento escolar";
+            document.title = titulo
+                ? titulo + " | Colegio Bolívar"
+                : "Contador de Eventos | Colegio Bolívar";
+        });
+
+        // Actualizar el contador y su mensaje
         function actualizarContador() {
             contador.textContent = totalClicks;
 
@@ -250,7 +288,7 @@
             }
         }
 
-        // Registrar una participación
+        // Sumar una participación
         botonSumar.addEventListener("click", function () {
             totalClicks++;
             actualizarContador();
@@ -267,16 +305,11 @@
             }
         });
 
-        // Reiniciar el contador con confirmación
+        // Reiniciar el contador completamente a cero
         botonReiniciar.addEventListener("click", function () {
-            const confirmar = window.confirm(
-                "¿Estás seguro de que deseas reiniciar el contador?"
-            );
-
-            if (confirmar) {
-                totalClicks = 0;
-                actualizarContador();
-            }
+            totalClicks = 0;
+            actualizarContador();
+            mensaje.textContent = "Contador reiniciado a cero.";
         });
     </script>
 </body>
