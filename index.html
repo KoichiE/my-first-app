@@ -1,240 +1,104 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Contador de Eventos | Colegio Bolívar</title>
 
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        body {
-            font-family: "Segoe UI", Arial, sans-serif;
-            background: linear-gradient(135deg, #050816, #0a1938, #101d42);
-            color: #f1f5f9;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
-
-        .contenedor {
-            background: rgba(13, 25, 52, 0.96);
-            width: 100%;
-            max-width: 460px;
-            padding: 35px 28px;
-            border: 1px solid rgba(0, 229, 255, 0.25);
-            border-radius: 24px;
-            text-align: center;
-            box-shadow: 0 0 30px rgba(0, 229, 255, 0.08),
-                        0 20px 60px rgba(0, 0, 0, 0.4);
-        }
-
-        h1 {
-            color: #00e5ff;
-            font-size: 28px;
-            margin-bottom: 10px;
-            text-shadow: 0 0 12px rgba(0, 229, 255, 0.25);
-        }
-
-        .subtitulo {
-            color: #94a3b8;
-            font-size: 14px;
-            margin-bottom: 28px;
-        }
-
-        .etiqueta {
-            display: block;
-            color: #cbd5e1;
-            font-size: 13px;
-            text-align: left;
-            margin-bottom: 8px;
-        }
-
-        .campo-titulo {
-            width: 100%;
-            padding: 13px;
-            margin-bottom: 28px;
-            background: #081329;
-            color: #ffffff;
-            border: 1px solid #334766;
-            border-radius: 10px;
-            font-size: 15px;
-            font-family: inherit;
-            outline: none;
-            transition: border-color 0.2s, box-shadow 0.2s;
-        }
-
-        .campo-titulo:focus {
-            border-color: #00e5ff;
-            box-shadow: 0 0 12px rgba(0, 229, 255, 0.15);
-        }
-
-        .etiqueta-contador {
-            color: #cbd5e1;
-            font-size: 13px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-
-        .contador {
-            font-size: 85px;
-            line-height: 1.3;
-            font-weight: 800;
-            color: #00e5ff;
-            text-shadow: 0 0 15px rgba(0, 229, 255, 0.4);
-            margin: 12px 0 24px;
-            transition: transform 0.2s ease;
-        }
-
-        .contador.animar {
-            transform: scale(1.1);
-        }
-
-        button {
-            width: 100%;
-            padding: 15px;
-            margin-top: 12px;
-            border-radius: 10px;
-            font-family: inherit;
-            font-size: 15px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-
-        .btn-sumar {
-            background: #00e5ff;
-            color: #061225;
-            border: 1px solid #00e5ff;
-            box-shadow: 0 0 15px rgba(0, 229, 255, 0.15);
-        }
-
-        .btn-sumar:hover {
-            background: #72f3ff;
-            box-shadow: 0 0 22px rgba(0, 229, 255, 0.4);
-            transform: translateY(-2px);
-        }
-
-        .btn-restar {
-            background: transparent;
-            color: #b8a5ff;
-            border: 1px solid #8b5cf6;
-        }
-
-        .btn-restar:hover {
-            background: rgba(139, 92, 246, 0.15);
-            box-shadow: 0 0 15px rgba(139, 92, 246, 0.2);
-        }
-
-        .btn-reiniciar {
-            background: transparent;
-            color: #ff7b8a;
-            border: 1px solid #fb5268;
-        }
-
-        .btn-reiniciar:hover {
-            background: rgba(251, 82, 104, 0.12);
-            box-shadow: 0 0 15px rgba(251, 82, 104, 0.2);
-        }
-
-        button:focus-visible {
-            outline: 2px solid white;
-            outline-offset: 3px;
-        }
-
-        button:active {
-            transform: scale(0.98);
-        }
-
-        .mensaje {
-            color: #94a3b8;
-            font-size: 13px;
-            line-height: 1.5;
-            margin-top: 22px;
-            min-height: 20px;
-        }
-
-        footer {
-            margin-top: 26px;
-            padding-top: 18px;
-            border-top: 1px solid rgba(148, 163, 184, 0.15);
-            color: #64748b;
-            font-size: 12px;
-        }
-
-        @media (max-width: 480px) {
-            .contenedor {
-                padding: 28px 20px;
-            }
-
-            h1 {
-                font-size: 24px;
-            }
-
-            .contador {
-                font-size: 72px;
-            }
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-            *,
-            *::before,
-            *::after {
-                transition: none !important;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
+    <script src="actions.js" defer></script>
 </head>
 
 <body>
     <main class="contenedor">
         <h1>Colegio Bolívar</h1>
-
         <p class="subtitulo">Contador interactivo de eventos</p>
 
-        <!-- Campo para cambiar el título del evento -->
-        <label class="etiqueta" for="tituloEvento">
-            Nombre del evento
-        </label>
+        <section class="seccion-titulo">
+            <label class="etiqueta" for="tituloEvento">
+                Nombre del evento
+            </label>
 
-        <input
-            type="text"
-            id="tituloEvento"
-            class="campo-titulo"
-            placeholder="Escribe el nombre del evento..."
-            value="Evento escolar"
-            maxlength="80"
-        >
+            <input
+                type="text"
+                id="tituloEvento"
+                value="Evento escolar"
+                placeholder="Escribe el nombre del evento..."
+                maxlength="80"
+            >
 
-        <!-- El título cambia mientras el usuario escribe -->
-        <p class="etiqueta-contador" id="tituloActual">
-            Evento escolar
-        </p>
+            <p class="titulo-evento" id="tituloActual">
+                Evento escolar
+            </p>
+        </section>
 
-        <div
-            class="contador"
-            id="contador"
-            aria-live="polite"
-            aria-atomic="true"
-        >0</div>
+        <section class="seccion-contador" aria-label="Contador de participaciones">
+            <p class="etiqueta-contador">Participaciones registradas</p>
 
-        <button class="btn-sumar" id="sumar">
-            + Registrar participación
-        </button>
+            <div
+                class="contador"
+                id="contador"
+                aria-live="polite"
+                aria-atomic="true"
+            >0</div>
+        </section>
 
-        <button class="btn-restar" id="restar">
-            − Restar participación
-        </button>
+        <section class="panel-meta" aria-label="Meta de participaciones">
+            <label class="etiqueta" for="metaInput">
+                Meta de participaciones
+            </label>
 
-        <button class="btn-reiniciar" id="reiniciar">
-            Reiniciar contador a cero
-        </button>
+            <input
+                type="number"
+                id="metaInput"
+                value="100"
+                min="1"
+                max="1000000"
+                step="1"
+                aria-describedby="textoProgreso"
+            >
+
+            <div class="meta-encabezado">
+                <span>Progreso de la meta</span>
+                <span class="porcentaje" id="porcentaje">0%</span>
+            </div>
+
+            <div
+                class="barra-fondo"
+                id="barraFondo"
+                role="progressbar"
+                aria-label="Progreso de participaciones"
+                aria-valuemin="0"
+                aria-valuemax="100"
+                aria-valuenow="0"
+            >
+                <div class="barra-progreso" id="barraProgreso"></div>
+            </div>
+
+            <p
+                class="texto-progreso"
+                id="textoProgreso"
+                aria-live="polite"
+            >
+                Faltan 100 participaciones para alcanzar la meta.
+            </p>
+        </section>
+
+        <section class="controles" aria-label="Controles del contador">
+            <button class="btn-sumar" id="sumar" type="button">
+                + Registrar participación
+            </button>
+
+            <button class="btn-restar" id="restar" type="button">
+                − Restar participación
+            </button>
+
+            <button class="btn-reiniciar" id="reiniciar" type="button">
+                Reiniciar contador a cero
+            </button>
+        </section>
 
         <p class="mensaje" id="mensaje" role="status" aria-live="polite">
             ¡Listos para comenzar el evento!
@@ -244,73 +108,5 @@
             Colegio Bolívar · Contador de eventos escolares
         </footer>
     </main>
-
-    <script>
-        let totalClicks = 0;
-
-        const contador = document.getElementById("contador");
-        const mensaje = document.getElementById("mensaje");
-        const botonSumar = document.getElementById("sumar");
-        const botonRestar = document.getElementById("restar");
-        const botonReiniciar = document.getElementById("reiniciar");
-
-        const campoTitulo = document.getElementById("tituloEvento");
-        const tituloActual = document.getElementById("tituloActual");
-
-        // Actualizar el título del evento en tiempo real
-        campoTitulo.addEventListener("input", function () {
-            const titulo = campoTitulo.value.trim();
-
-            tituloActual.textContent = titulo || "Evento escolar";
-            document.title = titulo
-                ? titulo + " | Colegio Bolívar"
-                : "Contador de Eventos | Colegio Bolívar";
-        });
-
-        // Actualizar el contador y su mensaje
-        function actualizarContador() {
-            contador.textContent = totalClicks;
-
-            contador.classList.remove("animar");
-            void contador.offsetWidth;
-            contador.classList.add("animar");
-
-            if (totalClicks === 0) {
-                mensaje.textContent =
-                    "¡Listos para comenzar el evento!";
-            } else if (totalClicks === 1) {
-                mensaje.textContent =
-                    "¡Primera participación registrada!";
-            } else {
-                mensaje.textContent =
-                    "¡Excelente! Llevamos " + totalClicks +
-                    " participaciones registradas.";
-            }
-        }
-
-        // Sumar una participación
-        botonSumar.addEventListener("click", function () {
-            totalClicks++;
-            actualizarContador();
-        });
-
-        // Restar una participación sin bajar de cero
-        botonRestar.addEventListener("click", function () {
-            if (totalClicks > 0) {
-                totalClicks--;
-                actualizarContador();
-            } else {
-                mensaje.textContent =
-                    "El contador ya está en cero.";
-            }
-        });
-
-        // Reiniciar el contador completamente a cero
-        botonReiniciar.addEventListener("click", function () {
-            totalClicks = 0;
-            actualizarContador();
-            mensaje.textContent = "Contador reiniciado a cero.";
-        });
-    </script>
 </body>
 </html>
