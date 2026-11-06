@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Contador de Eventos | Colegio Bolívar</title>
+    <title>Click Challenge | Colegio Bolívar</title>
 
     <link rel="stylesheet" href="style.css">
     <script src="actions.js" defer></script>
@@ -13,9 +13,13 @@
 
 <body>
     <main class="contenedor">
-        <h1>Colegio Bolívar</h1>
-        <p class="subtitulo">Contador interactivo de eventos</p>
 
+        <header>
+            <h1>Colegio Bolívar</h1>
+            <p class="subtitulo">Click Challenge</p>
+        </header>
+
+        <!-- Título editable -->
         <section class="seccion-titulo">
             <label class="etiqueta" for="tituloEvento">
                 Nombre del evento
@@ -24,18 +28,57 @@
             <input
                 type="text"
                 id="tituloEvento"
-                value="Evento escolar"
+                value="Click Challenge"
                 placeholder="Escribe el nombre del evento..."
                 maxlength="80"
             >
 
             <p class="titulo-evento" id="tituloActual">
-                Evento escolar
+                Click Challenge
             </p>
         </section>
 
-        <section class="seccion-contador" aria-label="Contador de participaciones">
-            <p class="etiqueta-contador">Participaciones registradas</p>
+        <!-- Configuración de partida -->
+        <section class="panel-configuracion">
+
+            <label class="etiqueta" for="duracion">
+                Duración de la partida
+            </label>
+
+            <select id="duracion">
+                <option value="10">10 segundos</option>
+                <option value="20">20 segundos</option>
+                <option value="30">30 segundos</option>
+            </select>
+
+            <button class="btn-iniciar" id="iniciar" type="button">
+                Iniciar partida
+            </button>
+
+        </section>
+
+        <!-- Temporizador -->
+        <section class="panel-temporizador">
+
+            <p class="etiqueta-contador">Tiempo transcurrido</p>
+
+            <div
+                class="temporizador"
+                id="temporizador"
+                role="timer"
+                aria-label="Tiempo transcurrido"
+            >00:00.000</div>
+
+            <p class="estado-partida" id="estadoPartida">
+                Selecciona una duración e inicia la partida.
+            </p>
+
+        </section>
+
+        <!-- Contador de clics -->
+        <section class="seccion-contador">
+
+            <p class="etiqueta-contador">Clics registrados</p>
 
             <div
                 class="contador"
@@ -43,9 +86,48 @@
                 aria-live="polite"
                 aria-atomic="true"
             >0</div>
+
+            <button
+                class="btn-sumar"
+                id="sumar"
+                type="button"
+                disabled
+            >
+                ¡HAZ CLIC!
+            </button>
+
+            <button
+                class="btn-reiniciar"
+                id="reiniciar"
+                type="button"
+            >
+                Reiniciar partida
+            </button>
+
         </section>
 
-        <section class="panel-meta" aria-label="Meta de participaciones">
+        <!-- Resultado final -->
+        <section class="panel-resultado" id="panelResultado" hidden>
+
+            <h2>¡Partida terminada!</h2>
+
+            <p class="resultado-texto">
+                Tu resultado final fue:
+            </p>
+
+            <div class="resultado-numero" id="resultadoFinal">
+                0
+            </div>
+
+            <p class="resultado-detalle" id="resultadoDetalle">
+                Clics registrados
+            </p>
+
+        </section>
+
+        <!-- Meta de participaciones -->
+        <section class="panel-meta">
+
             <label class="etiqueta" for="metaInput">
                 Meta de participaciones
             </label>
@@ -57,7 +139,6 @@
                 min="1"
                 max="1000000"
                 step="1"
-                aria-describedby="textoProgreso"
             >
 
             <div class="meta-encabezado">
@@ -74,39 +155,27 @@
                 aria-valuemax="100"
                 aria-valuenow="0"
             >
-                <div class="barra-progreso" id="barraProgreso"></div>
+                <div
+                    class="barra-progreso"
+                    id="barraProgreso"
+                ></div>
             </div>
 
-            <p
-                class="texto-progreso"
-                id="textoProgreso"
-                aria-live="polite"
-            >
+            <p class="texto-progreso" id="textoProgreso">
                 Faltan 100 participaciones para alcanzar la meta.
             </p>
+
         </section>
 
-        <section class="controles" aria-label="Controles del contador">
-            <button class="btn-sumar" id="sumar" type="button">
-                + Registrar participación
-            </button>
-
-            <button class="btn-restar" id="restar" type="button">
-                − Restar participación
-            </button>
-
-            <button class="btn-reiniciar" id="reiniciar" type="button">
-                Reiniciar contador a cero
-            </button>
-        </section>
-
+        <!-- Mensajes -->
         <p class="mensaje" id="mensaje" role="status" aria-live="polite">
-            ¡Listos para comenzar el evento!
+            ¡Prepárate para comenzar!
         </p>
 
         <footer>
-            Colegio Bolívar · Contador de eventos escolares
+            Colegio Bolívar · Click Challenge
         </footer>
+
     </main>
 </body>
 </html>

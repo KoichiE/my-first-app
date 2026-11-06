@@ -1,21 +1,33 @@
 
 "use strict";
 
-// =================================
+// ========================================
 // ELEMENTOS HTML
-// =================================
+// ========================================
 
 let totalClicks = 0;
+let tiempoInicio = null;
+let duracionPartida = 10;
+let partidaActiva = false;
+let animacionId = null;
 
 const contador = document.getElementById("contador");
+const temporizador = document.getElementById("temporizador");
 const mensaje = document.getElementById("mensaje");
+const estadoPartida = document.getElementById("estadoPartida");
 
 const botonSumar = document.getElementById("sumar");
-const botonRestar = document.getElementById("restar");
+const botonIniciar = document.getElementById("iniciar");
 const botonReiniciar = document.getElementById("reiniciar");
+
+const selectorDuracion = document.getElementById("duracion");
 
 const campoTitulo = document.getElementById("tituloEvento");
 const tituloActual = document.getElementById("tituloActual");
+
+const panelResultado = document.getElementById("panelResultado");
+const resultadoFinal = document.getElementById("resultadoFinal");
+const resultadoDetalle = document.getElementById("resultadoDetalle");
 
 const metaInput = document.getElementById("metaInput");
 const barraProgreso = document.getElementById("barraProgreso");
@@ -23,25 +35,54 @@ const barraFondo = document.getElementById("barraFondo");
 const porcentaje = document.getElementById("porcentaje");
 const textoProgreso = document.getElementById("textoProgreso");
 
-// =================================
-// TÍTULO EDITABLE EN TIEMPO REAL
-// =================================
+
+// ========================================
+// FORMATO DEL TIEMPO
+// ========================================
+
+function formatearTiempo(milisegundos) {
+
+    const minutos = Math.floor(milisegundos / 60000);
+
+    const segundos = Math.floor(
+        (milisegundos % 60000) / 1000
+    );
+
+    const milisegundosRestantes =
+        Math.floor(milisegundos % 1000);
+
+    return (
+        String(minutos).padStart(2, "0") + ":" +
+        String(segundos).padStart(2, "0") + "." +
+        String(milisegundosRestantes).padStart(3, "0")
+    );
+}
+
+
+// ========================================
+// CAMBIAR TÍTULO EN TIEMPO REAL
+// ========================================
 
 campoTitulo.addEventListener("input", function () {
+
     const titulo = campoTitulo.value.trim();
 
-    tituloActual.textContent = titulo || "Evento escolar";
+    tituloActual.textContent =
+        titulo || "Evento escolar";
 
     document.title = titulo
         ? titulo + " | Colegio Bolívar"
-        : "Contador de Eventos | Colegio Bolívar";
+        : "Click Challenge | Colegio Bolívar";
+
 });
 
-// =================================
-// VALIDACIÓN DE LA META
-// =================================
+
+// ========================================
+// VALIDAR META
+// ========================================
 
 function obtenerMeta() {
+
     const valor = Number(metaInput.value);
 
     if (
@@ -57,31 +98,52 @@ function obtenerMeta() {
     return valor;
 }
 
-// =================================
+
+// ========================================
 // ACTUALIZAR BARRA DE PROGRESO
-// =================================
+// ========================================
 
 function actualizarMeta() {
+
     const meta = obtenerMeta();
 
     if (meta === null) {
+
         porcentaje.textContent = "--";
+
         barraProgreso.style.width = "0%";
-        barraFondo.setAttribute("aria-valuenow", "0");
+
+        barraFondo.setAttribute(
+            "aria-valuenow",
+            "0"
+        );
 
         textoProgreso.textContent =
-            "Introduce una meta entera entre 1 y 1.000.000.";
+            "Introduce una meta válida entre 1 y 1.000.000.";
 
         textoProgreso.classList.remove("meta-completada");
+
         return;
     }
 
-    const progreso = Math.min((totalClicks / meta) * 100, 100);
-    const porcentajeRedondeado = Math.floor(progreso);
-    const restantes = Math.max(meta - totalClicks, 0);
+    const progreso = Math.min(
+        (totalClicks / meta) * 100,
+        100
+    );
 
-    barraProgreso.style.width = progreso + "%";
-    porcentaje.textContent = porcentajeRedondeado + "%";
+    const porcentajeRedondeado =
+        Math.floor(progreso);
+
+    const restantes = Math.max(
+        meta - totalClicks,
+        0
+    );
+
+    barraProgreso.style.width =
+        progreso + "%";
+
+    porcentaje.textContent =
+        porcentajeRedondeado + "%";
 
     barraFondo.setAttribute(
         "aria-valuenow",
@@ -89,95 +151,324 @@ function actualizarMeta() {
     );
 
     if (totalClicks >= meta) {
-        textoProgreso.textContent =
-            "¡Meta alcanzada! Objetivo de " + meta +
-            " participaciones completado.";
 
-        textoProgreso.classList.add("meta-completada");
+        textoProgreso.textContent =
+            "¡Meta alcanzada! Objetivo de " +
+            meta + " clics completado.";
+
+        textoProgreso.classList.add(
+            "meta-completada"
+        );
+
     } else {
+
         textoProgreso.textContent =
             "Faltan " + restantes +
-            " participaciones para alcanzar la meta.";
+            " clics para alcanzar la meta.";
 
-        textoProgreso.classList.remove("meta-completada");
+        textoProgreso.classList.remove(
+            "meta-completada"
+        );
+
     }
 }
 
-// =================================
-// ACTUALIZAR CONTADOR Y MENSAJES
-// =================================
+
+// ========================================
+// ACTUALIZAR CONTADOR
+// ========================================
 
 function actualizarContador() {
+
     contador.textContent = totalClicks;
 
-    // Animación del número
     contador.classList.remove("animar");
+
     void contador.offsetWidth;
+
     contador.classList.add("animar");
 
-    const meta = obtenerMeta();
-
-    if (meta !== null && totalClicks >= meta) {
-        mensaje.textContent =
-            "¡Felicitaciones! ¡Han alcanzado la meta del evento!";
-    } else if (totalClicks === 0) {
-        mensaje.textContent =
-            "¡Listos para comenzar el evento!";
-    } else if (totalClicks === 1) {
-        mensaje.textContent =
-            "¡Primera participación registrada!";
-    } else {
-        mensaje.textContent =
-            "¡Excelente! Llevamos " + totalClicks +
-            " participaciones registradas.";
-    }
-
     actualizarMeta();
+
 }
 
-// =================================
-// BOTÓN SUMAR
-// =================================
 
-botonSumar.addEventListener("click", function () {
-    totalClicks++;
-    actualizarContador();
-});
+// ========================================
+// ACTUALIZAR CRONÓMETRO
+// ========================================
 
-// =================================
-// BOTÓN RESTAR
-// =================================
+function actualizarTemporizador() {
 
-botonRestar.addEventListener("click", function () {
-    if (totalClicks > 0) {
-        totalClicks--;
-        actualizarContador();
-    } else {
-        mensaje.textContent = "El contador ya está en cero.";
+    if (!partidaActiva) {
+        return;
     }
-});
 
-// =================================
-// BOTÓN REINICIAR
-// =================================
+    const tiempoActual = performance.now();
 
-botonReiniciar.addEventListener("click", function () {
+    const tiempoTranscurrido =
+        tiempoActual - tiempoInicio;
+
+    const tiempoMaximo =
+        duracionPartida * 1000;
+
+    if (tiempoTranscurrido >= tiempoMaximo) {
+
+        finalizarPartida();
+
+        return;
+    }
+
+    temporizador.textContent =
+        formatearTiempo(tiempoTranscurrido);
+
+    animacionId =
+        requestAnimationFrame(actualizarTemporizador);
+
+}
+
+
+// ========================================
+// INICIAR PARTIDA
+// ========================================
+
+function iniciarPartida() {
+
+    if (partidaActiva) {
+        return;
+    }
+
+    duracionPartida =
+        Number(selectorDuracion.value);
+
+    if (![10, 20, 30].includes(duracionPartida)) {
+        return;
+    }
+
+    // Reiniciar datos anteriores
+
     totalClicks = 0;
+
+    tiempoInicio = null;
+
+    contador.textContent = "0";
+
+    temporizador.textContent = "00:00.000";
+
+    panelResultado.hidden = true;
+
+    resultadoFinal.textContent = "0";
+
+    actualizarMeta();
+
+    // Bloquear configuración durante la partida
+
+    selectorDuracion.disabled = true;
+
+    botonIniciar.disabled = true;
+
+    botonSumar.disabled = false;
+
+    partidaActiva = true;
+
+    estadoPartida.textContent =
+        "¡La partida está en marcha!";
+
+    mensaje.textContent =
+        "¡Haz tantos clics como puedas!";
+
+    // Iniciar cronómetro desde cero
+
+    tiempoInicio = performance.now();
+
+    animacionId =
+        requestAnimationFrame(actualizarTemporizador);
+
+}
+
+
+// ========================================
+// REGISTRAR CLICS
+// ========================================
+
+function registrarClick() {
+
+    if (!partidaActiva) {
+        return;
+    }
+
+    // Comprobar el tiempo real antes de contar
+
+    const tiempoTranscurrido =
+        performance.now() - tiempoInicio;
+
+    if (tiempoTranscurrido >= duracionPartida * 1000) {
+
+        finalizarPartida();
+
+        return;
+    }
+
+    totalClicks++;
+
     actualizarContador();
 
-    mensaje.textContent = "Contador reiniciado a cero.";
+}
+
+
+// ========================================
+// FINALIZAR PARTIDA
+// ========================================
+
+function finalizarPartida() {
+
+    if (!partidaActiva) {
+        return;
+    }
+
+    partidaActiva = false;
+
+    if (animacionId !== null) {
+
+        cancelAnimationFrame(animacionId);
+
+        animacionId = null;
+
+    }
+
+    // Mostrar tiempo final exacto
+
+    temporizador.textContent =
+        formatearTiempo(duracionPartida * 1000);
+
+    // Deshabilitar los controles de juego
+
+    botonSumar.disabled = true;
+
+    selectorDuracion.disabled = false;
+
+    botonIniciar.disabled = false;
+
+    // Mostrar resultado
+
+    resultadoFinal.textContent = totalClicks;
+
+    resultadoDetalle.textContent =
+        totalClicks === 1
+            ? "Clic registrado en " + duracionPartida + " segundos"
+            : "Clics registrados en " + duracionPartida + " segundos";
+
+    panelResultado.hidden = false;
+
+    estadoPartida.textContent =
+        "Tiempo terminado.";
+
+    mensaje.textContent =
+        "¡Partida finalizada! Lograste " +
+        totalClicks + " clics.";
+
+    actualizarMeta();
+
+}
+
+
+// ========================================
+// REINICIAR PARTIDA
+// ========================================
+
+function reiniciarPartida() {
+
+    partidaActiva = false;
+
+    if (animacionId !== null) {
+
+        cancelAnimationFrame(animacionId);
+
+        animacionId = null;
+
+    }
+
+    totalClicks = 0;
+
+    tiempoInicio = null;
+
+    duracionPartida =
+        Number(selectorDuracion.value);
+
+    contador.textContent = "0";
+
+    temporizador.textContent = "00:00.000";
+
+    // Restaurar controles
+
+    botonSumar.disabled = true;
+
+    botonIniciar.disabled = false;
+
+    selectorDuracion.disabled = false;
+
+    // Ocultar resultados anteriores
+
+    panelResultado.hidden = true;
+
+    resultadoFinal.textContent = "0";
+
+    estadoPartida.textContent =
+        "Selecciona una duración e inicia la partida.";
+
+    mensaje.textContent =
+        "¡Prepárate para comenzar!";
+
+    actualizarMeta();
+
+}
+
+
+// ========================================
+// EVENTOS DE LOS BOTONES
+// ========================================
+
+botonIniciar.addEventListener(
+    "click",
+    iniciarPartida
+);
+
+botonSumar.addEventListener(
+    "click",
+    registrarClick
+);
+
+botonReiniciar.addEventListener(
+    "click",
+    reiniciarPartida
+);
+
+
+// ========================================
+// CAMBIAR DURACIÓN
+// ========================================
+
+selectorDuracion.addEventListener("change", function () {
+
+    duracionPartida =
+        Number(selectorDuracion.value);
+
+    temporizador.textContent = "00:00.000";
+
 });
 
-// =================================
-// CAMBIO DE META
-// =================================
 
-metaInput.addEventListener("input", actualizarMeta);
-metaInput.addEventListener("change", actualizarContador);
+// ========================================
+// CAMBIAR META
+// ========================================
 
-// =================================
+metaInput.addEventListener(
+    "input",
+    actualizarMeta
+);
+
+
+// ========================================
 // INICIALIZACIÓN
-// =================================
+// ========================================
 
-actualizarContador();
-
+reiniciarPartida();

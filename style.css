@@ -1,6 +1,6 @@
 
 /* =================================
-   ESTILOS GENERALES
+   CONFIGURACIÓN GENERAL
 ================================= */
 
 * {
@@ -17,36 +17,33 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 20px;
+    padding: 25px 15px;
 }
 
 .contenedor {
-    background: rgba(13, 25, 52, 0.96);
+    background: rgba(13, 25, 52, 0.97);
     width: 100%;
-    max-width: 480px;
+    max-width: 490px;
     padding: 35px 28px;
     border: 1px solid rgba(0, 229, 255, 0.25);
     border-radius: 24px;
     text-align: center;
+
     box-shadow:
         0 0 30px rgba(0, 229, 255, 0.08),
         0 20px 60px rgba(0, 0, 0, 0.4);
 }
 
-/* =================================
-   ENCABEZADO
-================================= */
-
-h1 {
+header h1 {
     color: #00e5ff;
     font-size: 28px;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
     text-shadow: 0 0 12px rgba(0, 229, 255, 0.25);
 }
 
 .subtitulo {
     color: #94a3b8;
-    font-size: 14px;
+    font-size: 15px;
     margin-bottom: 28px;
 }
 
@@ -55,16 +52,17 @@ h1 {
     color: #cbd5e1;
     font-size: 13px;
     text-align: left;
-    margin-bottom: 8px;
+    margin-bottom: 9px;
 }
 
-input {
+input,
+select {
     display: block;
     width: 100%;
     padding: 13px;
-    margin-bottom: 22px;
+    margin-bottom: 20px;
     background: #081329;
-    color: #ffffff;
+    color: white;
     border: 1px solid #334766;
     border-radius: 10px;
     font-family: inherit;
@@ -72,9 +70,16 @@ input {
     outline: none;
 }
 
-input:focus {
+input:focus,
+select:focus {
     border-color: #00e5ff;
     box-shadow: 0 0 12px rgba(0, 229, 255, 0.15);
+}
+
+input:disabled,
+select:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
 }
 
 /* =================================
@@ -87,19 +92,113 @@ input:focus {
     text-transform: uppercase;
     letter-spacing: 2px;
     overflow-wrap: anywhere;
-    margin-bottom: 15px;
+    margin-bottom: 20px;
 }
 
 /* =================================
-   CONTADOR PRINCIPAL
+   CONFIGURACIÓN DE PARTIDA
 ================================= */
 
+.panel-configuracion {
+    background: rgba(3, 10, 27, 0.65);
+    padding: 18px;
+    border: 1px solid rgba(0, 229, 255, 0.16);
+    border-radius: 14px;
+    margin-bottom: 22px;
+    text-align: left;
+}
+
+.panel-configuracion select {
+    margin-bottom: 5px;
+}
+
+/* =================================
+   BOTONES GENERALES
+================================= */
+
+button {
+    width: 100%;
+    padding: 15px;
+    margin-top: 12px;
+    border-radius: 10px;
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+button:focus-visible {
+    outline: 2px solid white;
+    outline-offset: 3px;
+}
+
+button:active:not(:disabled) {
+    transform: scale(0.98);
+}
+
+button:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    box-shadow: none;
+    transform: none;
+}
+
+/* =================================
+   BOTÓN INICIAR
+================================= */
+
+.btn-iniciar {
+    background: #8b5cf6;
+    color: white;
+    border: 1px solid #a78bfa;
+    box-shadow: 0 0 15px rgba(139, 92, 246, 0.2);
+}
+
+.btn-iniciar:hover:not(:disabled) {
+    background: #a78bfa;
+    box-shadow: 0 0 22px rgba(139, 92, 246, 0.4);
+    transform: translateY(-2px);
+}
+
+/* =================================
+   TEMPORIZADOR
+================================= */
+
+.panel-temporizador {
+    background: rgba(3, 10, 27, 0.65);
+    border: 1px solid rgba(0, 229, 255, 0.2);
+    border-radius: 16px;
+    padding: 22px 12px;
+    margin-bottom: 22px;
+}
+
 .etiqueta-contador {
-    color: #cbd5e1;
-    font-size: 13px;
+    color: #94a3b8;
+    font-size: 12px;
     text-transform: uppercase;
     letter-spacing: 2px;
 }
+
+.temporizador {
+    color: #00e5ff;
+    font-size: clamp(35px, 9vw, 49px);
+    font-weight: 800;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 1px;
+    margin: 15px 0;
+    text-shadow: 0 0 15px rgba(0, 229, 255, 0.4);
+}
+
+.estado-partida {
+    color: #94a3b8;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+/* =================================
+   CONTADOR DE CLICS
+================================= */
 
 .contador {
     font-size: 85px;
@@ -108,7 +207,8 @@ input:focus {
     color: #00e5ff;
     text-shadow: 0 0 15px rgba(0, 229, 255, 0.4);
     margin: 10px 0 20px;
-    transition: transform 0.2s ease;
+    transition: transform 0.15s ease;
+    font-variant-numeric: tabular-nums;
 }
 
 .contador.animar {
@@ -116,7 +216,84 @@ input:focus {
 }
 
 /* =================================
-   PANEL DE LA META
+   BOTÓN DE CLIC
+================================= */
+
+.btn-sumar {
+    background: #00e5ff;
+    color: #061225;
+    border: 1px solid #00e5ff;
+    box-shadow: 0 0 15px rgba(0, 229, 255, 0.2);
+    font-size: 18px;
+    padding: 19px;
+}
+
+.btn-sumar:hover:not(:disabled) {
+    background: #72f3ff;
+    box-shadow: 0 0 25px rgba(0, 229, 255, 0.5);
+    transform: translateY(-2px);
+}
+
+.btn-sumar:disabled {
+    background: #334155;
+    color: #94a3b8;
+    border-color: #475569;
+}
+
+/* =================================
+   BOTÓN REINICIAR
+================================= */
+
+.btn-reiniciar {
+    background: transparent;
+    color: #ff7b8a;
+    border: 1px solid #fb5268;
+}
+
+.btn-reiniciar:hover {
+    background: rgba(251, 82, 104, 0.12);
+    box-shadow: 0 0 15px rgba(251, 82, 104, 0.2);
+}
+
+/* =================================
+   RESULTADO FINAL
+================================= */
+
+.panel-resultado {
+    background: rgba(0, 255, 179, 0.06);
+    border: 1px solid rgba(0, 255, 179, 0.4);
+    border-radius: 16px;
+    padding: 22px;
+    margin-top: 22px;
+    animation: aparecer 0.4s ease;
+}
+
+.panel-resultado[hidden] {
+    display: none;
+}
+
+.panel-resultado h2 {
+    color: #00ffb3;
+    font-size: 21px;
+    margin-bottom: 12px;
+}
+
+.resultado-texto,
+.resultado-detalle {
+    color: #94a3b8;
+    font-size: 13px;
+}
+
+.resultado-numero {
+    color: #00ffb3;
+    font-size: 65px;
+    font-weight: 800;
+    margin: 10px 0;
+    text-shadow: 0 0 18px rgba(0, 255, 179, 0.3);
+}
+
+/* =================================
+   PANEL DE META
 ================================= */
 
 .panel-meta {
@@ -124,7 +301,7 @@ input:focus {
     border: 1px solid rgba(0, 229, 255, 0.16);
     padding: 18px;
     border-radius: 14px;
-    margin-bottom: 22px;
+    margin-top: 22px;
     text-align: left;
 }
 
@@ -140,7 +317,6 @@ input:focus {
 .porcentaje {
     color: #00e5ff;
     font-weight: bold;
-    white-space: nowrap;
 }
 
 .barra-fondo {
@@ -156,7 +332,7 @@ input:focus {
     width: 0%;
     background: linear-gradient(90deg, #00b8d9, #00ffb3);
     border-radius: 20px;
-    transition: width 0.35s ease;
+    transition: width 0.2s ease;
     box-shadow: 0 0 12px rgba(0, 229, 255, 0.4);
 }
 
@@ -173,69 +349,7 @@ input:focus {
 }
 
 /* =================================
-   BOTONES
-================================= */
-
-button {
-    width: 100%;
-    padding: 15px;
-    margin-top: 12px;
-    border-radius: 10px;
-    font-family: inherit;
-    font-size: 15px;
-    font-weight: 700;
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
-
-.btn-sumar {
-    background: #00e5ff;
-    color: #061225;
-    border: 1px solid #00e5ff;
-    box-shadow: 0 0 15px rgba(0, 229, 255, 0.15);
-}
-
-.btn-sumar:hover {
-    background: #72f3ff;
-    box-shadow: 0 0 22px rgba(0, 229, 255, 0.4);
-    transform: translateY(-2px);
-}
-
-.btn-restar {
-    background: transparent;
-    color: #b8a5ff;
-    border: 1px solid #8b5cf6;
-}
-
-.btn-restar:hover {
-    background: rgba(139, 92, 246, 0.15);
-    box-shadow: 0 0 15px rgba(139, 92, 246, 0.2);
-    transform: translateY(-2px);
-}
-
-.btn-reiniciar {
-    background: transparent;
-    color: #ff7b8a;
-    border: 1px solid #fb5268;
-}
-
-.btn-reiniciar:hover {
-    background: rgba(251, 82, 104, 0.12);
-    box-shadow: 0 0 15px rgba(251, 82, 104, 0.2);
-    transform: translateY(-2px);
-}
-
-button:focus-visible {
-    outline: 2px solid white;
-    outline-offset: 3px;
-}
-
-button:active {
-    transform: scale(0.98);
-}
-
-/* =================================
-   MENSAJES Y PIE DE PÁGINA
+   MENSAJES Y FOOTER
 ================================= */
 
 .mensaje {
@@ -255,7 +369,23 @@ footer {
 }
 
 /* =================================
-   DISEÑO RESPONSIVE
+   ANIMACIONES
+================================= */
+
+@keyframes aparecer {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* =================================
+   RESPONSIVE
 ================================= */
 
 @media (max-width: 480px) {
@@ -263,12 +393,16 @@ footer {
         padding: 28px 20px;
     }
 
-    h1 {
+    header h1 {
         font-size: 24px;
     }
 
     .contador {
         font-size: 72px;
+    }
+
+    .resultado-numero {
+        font-size: 55px;
     }
 }
 
@@ -276,6 +410,8 @@ footer {
     *,
     *::before,
     *::after {
+        animation: none !important;
         transition: none !important;
     }
 }
+
