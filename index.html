@@ -1,181 +1,205 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Click Challenge | Colegio Bolívar</title>
-
     <link rel="stylesheet" href="style.css">
     <script src="actions.js" defer></script>
 </head>
-
 <body>
-    <main class="contenedor">
 
-        <header>
-            <h1>Colegio Bolívar</h1>
-            <p class="subtitulo">Click Challenge</p>
+    <main class="app-container">
+
+        <header class="top-bar">
+            <div class="brand">
+                <span class="brand-icon">C</span>
+                <div>
+                    <h1>CLICK<span>CHALLENGE</span></h1>
+                    <p>COLEGIO BOLÍVAR</p>
+                </div>
+            </div>
+
+            <button id="abrirRanking" class="ranking-button">
+                <span>🏆</span>
+                <span>Leaderboard</span>
+            </button>
         </header>
 
-        <!-- Título editable -->
-        <section class="seccion-titulo">
-            <label class="etiqueta" for="tituloEvento">
-                Nombre del evento
-            </label>
-
-            <input
-                type="text"
-                id="tituloEvento"
-                value="Click Challenge"
-                placeholder="Escribe el nombre del evento..."
-                maxlength="80"
-            >
-
-            <p class="titulo-evento" id="tituloActual">
-                Click Challenge
+        <section class="hero">
+            <p class="eyebrow">THE ULTIMATE CLICKING GAME</p>
+            <h2 id="tituloActual">Click Speed Challenge</h2>
+            <p class="hero-description">
+                Pon a prueba tu velocidad. ¡Consigue el mayor número de clics!
             </p>
         </section>
 
-        <!-- Configuración de partida -->
-        <section class="panel-configuracion">
+        <section class="settings-panel">
 
-            <label class="etiqueta" for="duracion">
-                Duración de la partida
-            </label>
-
-            <select id="duracion">
-                <option value="10">10 segundos</option>
-                <option value="20">20 segundos</option>
-                <option value="30">30 segundos</option>
-            </select>
-
-            <button class="btn-iniciar" id="iniciar" type="button">
-                Iniciar partida
-            </button>
-
-        </section>
-
-        <!-- Temporizador -->
-        <section class="panel-temporizador">
-
-            <p class="etiqueta-contador">Tiempo transcurrido</p>
-
-            <div
-                class="temporizador"
-                id="temporizador"
-                role="timer"
-                aria-label="Tiempo transcurrido"
-            >00:00.000</div>
-
-            <p class="estado-partida" id="estadoPartida">
-                Selecciona una duración e inicia la partida.
-            </p>
-
-        </section>
-
-        <!-- Contador de clics -->
-        <section class="seccion-contador">
-
-            <p class="etiqueta-contador">Clics registrados</p>
-
-            <div
-                class="contador"
-                id="contador"
-                aria-live="polite"
-                aria-atomic="true"
-            >0</div>
-
-            <button
-                class="btn-sumar"
-                id="sumar"
-                type="button"
-                disabled
-            >
-                ¡HAZ CLIC!
-            </button>
-
-            <button
-                class="btn-reiniciar"
-                id="reiniciar"
-                type="button"
-            >
-                Reiniciar partida
-            </button>
-
-        </section>
-
-        <!-- Resultado final -->
-        <section class="panel-resultado" id="panelResultado" hidden>
-
-            <h2>¡Partida terminada!</h2>
-
-            <p class="resultado-texto">
-                Tu resultado final fue:
-            </p>
-
-            <div class="resultado-numero" id="resultadoFinal">
-                0
+            <div class="setting-group">
+                <label for="tituloEvento">Nombre del evento</label>
+                <input
+                    type="text"
+                    id="tituloEvento"
+                    placeholder="Ej. Bolívar Click Challenge"
+                    maxlength="40"
+                >
             </div>
 
-            <p class="resultado-detalle" id="resultadoDetalle">
-                Clics registrados
+            <div class="setting-group">
+                <label for="nombreJugador">Nombre del jugador</label>
+                <input
+                    type="text"
+                    id="nombreJugador"
+                    placeholder="Escribe tu nombre"
+                    maxlength="20"
+                    autocomplete="name"
+                >
+            </div>
+
+            <div class="setting-group">
+                <label for="duracion">Duración de la partida</label>
+                <select id="duracion">
+                    <option value="10">10 segundos</option>
+                    <option value="20">20 segundos</option>
+                    <option value="30">30 segundos</option>
+                </select>
+            </div>
+
+        </section>
+
+        <section class="game-card">
+
+            <div class="game-status">
+                <span class="status-dot"></span>
+                <span id="estadoPartida">LISTO PARA JUGAR</span>
+            </div>
+
+            <div class="timer-container">
+                <p>TIEMPO RESTANTE</p>
+                <div id="temporizador">00:10.000</div>
+            </div>
+
+            <div class="click-counter">
+                <p>CLICKS</p>
+                <div id="contador">0</div>
+            </div>
+
+            <button id="sumar" class="click-button" disabled>
+                ¡CLICK!
+            </button>
+
+            <div class="game-controls">
+                <button id="iniciar" class="primary-button">
+                    Iniciar partida
+                </button>
+
+                <button id="reiniciar" class="secondary-button">
+                    Reiniciar
+                </button>
+            </div>
+
+            <p id="mensaje" class="message">
+                Escribe tu nombre y presiona iniciar para comenzar.
             </p>
 
         </section>
 
-        <!-- Meta de participaciones -->
-        <section class="panel-meta">
-
-            <label class="etiqueta" for="metaInput">
-                Meta de participaciones
-            </label>
-
-            <input
-                type="number"
-                id="metaInput"
-                value="100"
-                min="1"
-                max="1000000"
-                step="1"
-            >
-
-            <div class="meta-encabezado">
-                <span>Progreso de la meta</span>
-                <span class="porcentaje" id="porcentaje">0%</span>
+        <section class="progress-section">
+            <div class="progress-heading">
+                <div>
+                    <h3>Meta de participación</h3>
+                    <p>Progreso de clics en esta partida</p>
+                </div>
+                <span id="porcentaje">0%</span>
             </div>
 
-            <div
-                class="barra-fondo"
-                id="barraFondo"
-                role="progressbar"
-                aria-label="Progreso de participaciones"
-                aria-valuemin="0"
-                aria-valuemax="100"
-                aria-valuenow="0"
-            >
-                <div
-                    class="barra-progreso"
-                    id="barraProgreso"
-                ></div>
+            <div class="progress-track">
+                <div id="barraProgreso" class="progress-fill"></div>
             </div>
 
-            <p class="texto-progreso" id="textoProgreso">
-                Faltan 100 participaciones para alcanzar la meta.
-            </p>
-
+            <div class="progress-footer">
+                <span id="textoProgreso">0 / 100 clics</span>
+                <label for="metaInput">Meta:</label>
+                <input
+                    type="number"
+                    id="metaInput"
+                    min="1"
+                    value="100"
+                >
+            </div>
         </section>
 
-        <!-- Mensajes -->
-        <p class="mensaje" id="mensaje" role="status" aria-live="polite">
-            ¡Prepárate para comenzar!
-        </p>
+        <section id="panelResultado" class="result-panel hidden">
+            <p class="eyebrow">PARTIDA FINALIZADA</p>
+            <h2>¡Buen trabajo!</h2>
+            <p id="resultadoJugador"></p>
+            <div class="final-score" id="resultadoFinal">0</div>
+            <p>CLICKS CONSEGUIDOS</p>
+            <p id="mensajeRecord" class="record-message"></p>
+
+            <button id="verRankingFinal" class="primary-button">
+                Ver tabla de posiciones
+            </button>
+        </section>
 
         <footer>
-            Colegio Bolívar · Click Challenge
+            <p>CLICK CHALLENGE · COLEGIO BOLÍVAR</p>
         </footer>
 
     </main>
+
+    <!-- Ventana del leaderboard -->
+    <div id="modalRanking" class="modal hidden">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <div>
+                    <p class="eyebrow">TOP PLAYERS</p>
+                    <h2>Tabla de posiciones</h2>
+                </div>
+
+                <button id="cerrarRanking" class="close-button">
+                    &times;
+                </button>
+            </div>
+
+            <div class="ranking-tabs">
+                <button class="tab-button active" data-tiempo="10">10s</button>
+                <button class="tab-button" data-tiempo="20">20s</button>
+                <button class="tab-button" data-tiempo="30">30s</button>
+            </div>
+
+            <div class="ranking-category">
+                <span id="categoriaRanking">PARTIDAS DE 10 SEGUNDOS</span>
+            </div>
+
+            <div class="ranking-table-wrapper">
+                <table class="ranking-table">
+                    <thead>
+                        <tr>
+                            <th>POS.</th>
+                            <th>JUGADOR</th>
+                            <th>CLICKS</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tablaRanking">
+                        <!-- Se llena desde JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+
+            <p id="rankingVacio" class="empty-ranking hidden">
+                Todavía no hay puntajes registrados en esta categoría.
+                ¡Sé el primero!
+            </p>
+
+            <div class="modal-footer">
+                <p>Los mejores 10 puntajes se guardan en este dispositivo.</p>
+            </div>
+
+        </div>
+    </div>
+
 </body>
 </html>
